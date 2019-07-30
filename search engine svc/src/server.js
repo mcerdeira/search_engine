@@ -1,15 +1,22 @@
 const express = require('express');
 const cors = require('cors');
+let db_actions = require("./db_actions.js");
 const app = express();
+const PORT = 3000;//process.env.PORT || 3000;
+
 app.use(cors());
 app.options('*', cors());
 
-app.get('/query', (req, res) => {
-    res.send("response");
+app.get('/query/:queryString', (req, res) => {    
+    db_actions.GetData(req.params.queryString, function(data){
+        res.send(data);
+    });
 });
 
-// Listen to the App Engine-specified port, or 3000 otherwise
-const PORT = process.env.PORT || 3000;
+app.use(function (req, res) {
+    res.status(404);
+});
+
 app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}...`);
 });
