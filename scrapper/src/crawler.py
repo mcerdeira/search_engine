@@ -5,6 +5,8 @@ from urllib.request import urlopen
 from urllib import robotparser
 from bs4 import BeautifulSoup
 import sqlite3
+from multiprocessing import Process
+import extractor, db_actions
 
 COMMIT_EVERY = 100
 conn = sqlite3.connect('crawled_web.db')
@@ -99,11 +101,13 @@ def dump(robots, url, content):
     global urls
     try:
         base_url = url[0]
+        # 0001 TODO: This part must be a separate process, using extractor class
         soup = BeautifulSoup(content, 'html.parser')
         if(soup.title):
             title = soup.title.text
         else:
             title = ""
+        # 0001
 
         if not url[1] in already_fetched:
             already_fetched.append(url[1])

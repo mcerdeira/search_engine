@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 let db_actions = require("./db_actions.js");
 const app = express();
-const PORT = 3000;//process.env.PORT || 3000;
+const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.options('*', cors());
@@ -14,7 +14,7 @@ app.get('/query/:queryString', (req, res) => {
 });
 
 app.use(function (req, res) {
-    res.status(404);
+    res.status(404).send();
 });
 
 app.listen(PORT, () => {
