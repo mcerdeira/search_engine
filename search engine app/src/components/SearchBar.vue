@@ -1,7 +1,7 @@
 <template>
     <div>
-        <input v-model="query" id="search_text" type="text">
-        <button @click="search_clicked">Search</button>
+        <input @keyup.enter="trigger_click" autofocus v-model="query" id="search_text" type="text">
+        <button type="submit" @click="search_clicked" ref="button_search">Search</button>
         <br>
         <br>
         <div v-for="v in result" :key="v.title" >
@@ -15,6 +15,10 @@ export default {
   methods: {
     set_data: function(data){
         this.result = data;
+    },
+
+    trigger_click: function(){
+        this.$refs.button_search.click();
     },
 
     search_clicked: function(event){
