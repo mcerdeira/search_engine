@@ -1,13 +1,14 @@
 <template>
-    <div>
-        <input @keyup.enter="trigger_click" autofocus v-model="query" id="search_text" type="text">
-        <button type="submit" @click="search_clicked" ref="button_search">Search</button>
+	<div class="container">
+        <input class="form-control input-sm" @keyup.enter="trigger_click" autofocus v-model="query" id="search_text" type="text">
+		<br>
+        <button class="btn btn-light" type="submit" @click="search_clicked" ref="button_search">Search</button>
         <br>
         <br>
         <div v-for="v in result" :key="v.title" >
             <a :href="v.url" target="_blank">{{v.title}}</a>
         </div>
-    </div>    
+	</div>       
 </template>
 
 <script>
