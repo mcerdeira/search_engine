@@ -1,10 +1,13 @@
 <template>
     <div class="container">
-        <input class="form-control input-sm" @keyup.enter="trigger_click" autofocus v-model="query" id="search_text" type="text">
+        <input placeholder="Search term" class="form-control input-sm" @keyup.enter="trigger_click" autofocus v-model="query" id="search_text" type="text">
         <br>
         <button class="btn btn-light" type="submit" @click="search_clicked" ref="button_search">Search</button>
         <br>
         <br>
+        <div v-if="showResult && result.length == 0">
+            Nothing to show, No results.
+        </div>
         <div v-for="v in result" :key="v.title" >
             <a :href="v.url" target="_blank">{{v.title}}</a>
         </div>
@@ -13,6 +16,9 @@
 
 <script>
 export default {
+  mounted(){
+      this.showResult = false;
+  },
   methods: {
     set_data: function(data){
         this.result = data;
@@ -23,6 +29,7 @@ export default {
     },
 
     search_clicked: function(event){
+      this.showResult = true;
       let query = this.query;
       let url = `http://localhost:3000/query/${query}`;       
       fetch(url)
@@ -44,8 +51,9 @@ export default {
   },
   data: function() {
       return {
+        showResult: false,
         query: "",
-        result: [{title:"", "url":""},]
+        result: []
       }
   },
 }
