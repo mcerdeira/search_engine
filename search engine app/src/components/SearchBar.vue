@@ -3,13 +3,16 @@
         <input placeholder="Search term" class="form-control input-sm" @keyup.enter="trigger_click" autofocus v-model="query" id="search_text" type="text">
         <br>
         <button class="btn btn-light" type="submit" @click="search_clicked" ref="button_search">Search</button>
-        <br>
-        <br>
+        <br>      
+        <br>       
         <div v-if="showResult && result.length == 0">
             Nothing to show, No results.
         </div>
-        <div v-for="v in result" :key="v.title" >
-            <a :href="v.url" target="_blank">{{v.title}}</a>
+        <h4 v-else-if="showResult">
+            {{result[0].count}} results:
+        </h4>        
+        <div v-for="(v, index) in result" :key="v.title" >
+            <a :href="v.url" target="_blank">{{index + 1}} - {{v.title}}</a>         
         </div>
     </div>       
 </template>
@@ -28,7 +31,7 @@ export default {
         this.$refs.button_search.click();
     },
 
-    search_clicked: function(event){
+    search_clicked: function(event){      
       this.showResult = true;
       let query = this.query;
       let url = `http://localhost:3000/query/${query}`;       
@@ -50,7 +53,7 @@ export default {
     },
   },
   data: function() {
-      return {
+      return {              
         showResult: false,
         query: "",
         result: []
